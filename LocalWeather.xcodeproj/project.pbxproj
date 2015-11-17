@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0F789D7F098DB7C34A95BD0A /* Pods_LocalWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C39C0EC89A81C90AD5A84C /* Pods_LocalWeather.framework */; };
+		BB045AFF1BFB5882006E9C39 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB045AFE1BFB5882006E9C39 /* Weather.swift */; };
+		BB045B021BFB6493006E9C39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB045B011BFB6493006E9C39 /* Constants.swift */; };
 		BB5DE5E61BFB554500DA175E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5DE5E51BFB554500DA175E /* AppDelegate.swift */; };
 		BB5DE5E81BFB554500DA175E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5DE5E71BFB554500DA175E /* ViewController.swift */; };
 		BB5DE5EB1BFB554500DA175E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB5DE5E91BFB554500DA175E /* Main.storyboard */; };
@@ -18,6 +20,8 @@
 /* Begin PBXFileReference section */
 		2EF443ACCB5007DC4371E74E /* Pods-LocalWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-LocalWeather/Pods-LocalWeather.release.xcconfig"; sourceTree = "<group>"; };
 		80C39C0EC89A81C90AD5A84C /* Pods_LocalWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LocalWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB045AFE1BFB5882006E9C39 /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		BB045B011BFB6493006E9C39 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BB5DE5E21BFB554500DA175E /* LocalWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB5DE5E51BFB554500DA175E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB5DE5E71BFB554500DA175E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +61,36 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		BB045AFB1BFB56AB006E9C39 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BB045AFE1BFB5882006E9C39 /* Weather.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		BB045AFC1BFB56B0006E9C39 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		BB045AFD1BFB56BB006E9C39 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		BB045B001BFB647C006E9C39 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				BB045B011BFB6493006E9C39 /* Constants.swift */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
 		BB5DE5D91BFB554500DA175E = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +112,10 @@
 		BB5DE5E41BFB554500DA175E /* LocalWeather */ = {
 			isa = PBXGroup;
 			children = (
+				BB045B001BFB647C006E9C39 /* Util */,
+				BB045AFB1BFB56AB006E9C39 /* Model */,
+				BB045AFC1BFB56B0006E9C39 /* View */,
+				BB045AFD1BFB56BB006E9C39 /* Controller */,
 				BB5DE5E51BFB554500DA175E /* AppDelegate.swift */,
 				BB5DE5E71BFB554500DA175E /* ViewController.swift */,
 				BB5DE5E91BFB554500DA175E /* Main.storyboard */,
@@ -212,7 +250,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB5DE5E81BFB554500DA175E /* ViewController.swift in Sources */,
+				BB045AFF1BFB5882006E9C39 /* Weather.swift in Sources */,
 				BB5DE5E61BFB554500DA175E /* AppDelegate.swift in Sources */,
+				BB045B021BFB6493006E9C39 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
