@@ -29,7 +29,11 @@ class ViewController: UIViewController {
         weather.downloadWeatherDetails { () -> () in
             self.updateUI()
         }
-            }
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
     
     func updateUI() {
         weatherImg.image = UIImage(named: weather.icon)
