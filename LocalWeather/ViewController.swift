@@ -10,21 +10,39 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var weatherImg: UIImageView!
+    @IBOutlet weak var temperatureLbl: UILabel!
+    @IBOutlet weak var weatherDescLbl: UILabel!
+    @IBOutlet weak var pressureLbl: UILabel!
+    @IBOutlet weak var windSpeedLbl: UILabel!
+    @IBOutlet weak var windDirectionLbl: UILabel!
+    @IBOutlet weak var sunriseLbl: UILabel!
+    @IBOutlet weak var sunsetLbl: UILabel!
+    @IBOutlet weak var cityLbl: UILabel!
+    
     var weather: Weather!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        let weat = Weather(cityID: 540761)
-        weat.downloadWeatherDetails { () -> () in
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        weather = Weather(cityID: 540761)
         
+        weather.downloadWeatherDetails { () -> () in
+            self.updateUI()
+        }
+            }
+    
+    func updateUI() {
+        weatherImg.image = UIImage(named: weather.icon)
+        temperatureLbl.text = "\(weather.temperature)\u{00B0}C"
+        weatherDescLbl.text = weather.weatherDesc.capitalizedString
+        pressureLbl.text = "\(weather.pressure) mmHg"
+        windSpeedLbl.text = "\(weather.windSpeed) m/s"
+        windDirectionLbl.text = "\(weather.windDirection)"
+        sunriseLbl.text = weather.sunrise
+        sunsetLbl.text = weather.sunset
+        cityLbl.text = weather.cityName.capitalizedString
     }
+    
 
 
 }
