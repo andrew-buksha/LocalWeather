@@ -14,6 +14,7 @@ class Weather {
     private var _cityID: Int!
     private var _cityAltitude: String!
     private var _cityLongtitude: String!
+    private var _today: String!
     private var _weatherDesc: String!
     private var _icon: String!
     private var _temperature: String!
@@ -24,6 +25,20 @@ class Weather {
     private var _sunrise: String!
     private var _sunset: String!
     private var _weatherUrl: String!
+    private var _dayOneIcon: String!
+    private var _dayOneDayTemp: String!
+    private var _dayOneNightTemp: String!
+    private var _dayOneDesc: String!
+    private var _dayTwoName: String!
+    private var _dayTwoIcon: String!
+    private var _dayTwoDayTemp: String!
+    private var _dayTwoNightTemp: String!
+    private var _dayTwoDesc: String!
+    private var _dayThreeName: String!
+    private var _dayThreeIcon: String!
+    private var _dayThreeDayTemp: String!
+    private var _dayThreeNightTemp: String!
+    private var _dayThreeDesc: String!
     
     enum WindDirections: String {
         case N
@@ -48,6 +63,112 @@ class Weather {
         get {
             return _windDirection
         }
+    }
+    
+    var today: String {
+        if _today == nil {
+            _today = ""
+        }
+        return _today
+    }
+
+    
+    var dayOneIcon: String {
+        if _dayOneIcon == nil {
+            _dayOneIcon = ""
+        }
+        return _dayOneIcon
+    }
+    
+    var dayOneDayTemp: String {
+        if _dayOneDayTemp == nil {
+            _dayOneDayTemp = ""
+        }
+        return _dayOneDayTemp
+    }
+    
+    var dayOneNightTemp: String {
+        if _dayOneNightTemp == nil {
+            _dayOneNightTemp = ""
+        }
+        return _dayOneNightTemp
+    }
+    
+    var dayOneDesc: String {
+        if _dayOneDesc == nil {
+            _dayOneDesc = ""
+        }
+        return _dayOneDesc
+    }
+    
+    var dayTwoName: String {
+        if _dayTwoName == nil {
+            _dayTwoName = ""
+        }
+        return _dayTwoName
+    }
+    
+    var dayTwoIcon: String {
+        if _dayTwoIcon == nil {
+            _dayTwoIcon = ""
+        }
+        return _dayTwoIcon
+    }
+    
+    var dayTwoDayTemp: String {
+        if _dayTwoDayTemp == nil {
+            _dayTwoDayTemp = ""
+        }
+        return _dayTwoDayTemp
+    }
+    
+    var dayTwoNightTemp: String {
+        if _dayTwoNightTemp == nil {
+            _dayTwoNightTemp = ""
+        }
+        return _dayTwoNightTemp
+    }
+    
+    var dayTwoDesc: String {
+        if _dayTwoDesc == nil {
+            _dayTwoDesc = ""
+        }
+        return _dayTwoDesc
+    }
+    
+    var dayThreeName: String {
+        if _dayThreeName == nil {
+            _dayThreeName = ""
+        }
+        return _dayThreeName
+    }
+    
+    var dayThreeIcon: String {
+        if _dayThreeIcon == nil {
+            _dayThreeIcon = ""
+        }
+        return _dayThreeIcon
+    }
+    
+    var dayThreeDayTemp: String {
+        if _dayThreeDayTemp == nil {
+            _dayThreeDayTemp = ""
+        }
+        return _dayThreeDayTemp
+    }
+    
+    var dayThreeNightTemp: String {
+        if _dayThreeNightTemp == nil {
+            _dayThreeNightTemp = ""
+        }
+        return _dayThreeNightTemp
+    }
+    
+    var dayThreeDesc: String {
+        if _dayThreeDesc == nil {
+            _dayThreeDesc = ""
+        }
+        return _dayThreeDesc
     }
     
     var cityName: String {
@@ -137,7 +258,7 @@ class Weather {
     init(cityID: Int) {
         self._cityID = cityID
         
-        _weatherUrl = "\(WEATHER_URL)&id=\(self._cityID)\(UNITS)\(API_KEY)"
+        _weatherUrl = "\(WEATHER_URL)id=\(self._cityID)\(UNITS)\(API_KEY)"
     }
     
     
@@ -149,6 +270,14 @@ class Weather {
         let minute = calendar.component(NSCalendarUnit.Minute, fromDate: date1)
         let time = "\(hour):\(minute)"
         return time
+    }
+    
+    func formatDate(unixDate: Double) -> String {
+        let date = NSDate(timeIntervalSince1970: unixDate)
+        let weekDay = NSDateFormatter()
+        weekDay.dateFormat = "EEEE"
+        let formattedDate = weekDay.stringFromDate(date)
+        return formattedDate
     }
     
     func convertPressure(press: Double) -> Double {
@@ -169,6 +298,13 @@ class Weather {
                         self._icon = icon
                         print(self._icon)
                     }
+                }
+                if let today = dict["dt"] as? Double {
+                    let date = NSDate(timeIntervalSince1970: today)
+                    let weekDay = NSDateFormatter()
+                    weekDay.dateFormat = "EEEE, MMMM d"
+                    let formattedDate = weekDay.stringFromDate(date)
+                    self._today = formattedDate
                 }
                 if let main = dict["main"] as? Dictionary<String,AnyObject> {
                     if let temperature = main["temp"] as? Double {
@@ -237,19 +373,76 @@ class Weather {
                 }
                 
                 
-            }
-            
-            completed()
+                let nsurl = NSURL(string: "\(FORECAST_URL)id=\(self._cityID)\(UNITS)\(API_KEY)")!
+                Alamofire.request(.GET, nsurl).responseJSON(completionHandler: { (response) -> Void in
+                    if let forecast = response.result.value as?  Dictionary<String,AnyObject> {
+                        if let list = forecast["list"] as? [Dictionary<String,AnyObject>] {
+                            if let dayOneTemp = list[1]["temp"] as? Dictionary<String,AnyObject> where dayOneTemp.count > 0{
+                                if let dayOneDayTemp = dayOneTemp["day"] as? Double {
+                                    self._dayOneDayTemp = NSString(format: "%.0f", dayOneDayTemp) as String
+                                }
+                                if let dayOneNightTemp = dayOneTemp["night"] as? Double {
+                                    self._dayOneNightTemp = NSString(format: "%.0f", dayOneNightTemp) as String
+                                }
+                                
+                            }
+                            if let dayOneCond = list[1]["weather"] as? [Dictionary<String,AnyObject>] where dayOneCond.count > 0 {
+                                if let dayOneIcon = dayOneCond[0]["icon"] as? String {
+                                    self._dayOneIcon = dayOneIcon
+                                }
+                                if let dayOneDesc = dayOneCond[0]["description"] as? String {
+                                    self._dayOneDesc = dayOneDesc
+                                }
+                            }
+                            if let dayTwoName = list[2]["dt"] as? Double {
+                                self._dayTwoName = self.formatDate(dayTwoName)
+                            }
+                            if let dayTwoTemp = list[2]["temp"] as? Dictionary<String,AnyObject> where dayTwoTemp.count > 0 {
+                                if let dayTwoDayTemp = dayTwoTemp["day"] as? Double {
+                                    self._dayTwoDayTemp = NSString(format: "%.0f", dayTwoDayTemp) as String
+                                }
+                                if let dayTwoNightTemp = dayTwoTemp["night"] as? Double {
+                                    self._dayTwoNightTemp = NSString(format: "%.0f", dayTwoNightTemp) as String
+                                }
+                            }
+                            if let dayTwoCond = list[2]["weather"] as? [Dictionary<String,AnyObject>] where dayTwoCond.count > 0 {
+                                if let dayTwoIcon = dayTwoCond[0]["icon"] as? String {
+                                    self._dayTwoIcon = dayTwoIcon
+                                }
+                                if let dayTwoDesc = dayTwoCond[0]["description"] as? String {
+                                    self._dayTwoDesc = dayTwoDesc
+                                }
+                            }
+                            if let dayThreeName = list[3]["dt"] as? Double {
+                                self._dayThreeName = self.formatDate(dayThreeName)
+                            }
+                            if let dayThreeTemp = list[3]["temp"] as? Dictionary<String,AnyObject> where dayThreeTemp.count > 0 {
+                                if let dayThreeDayTemp = dayThreeTemp["day"] as? Double {
+                                    self._dayThreeDayTemp = NSString(format: "%.0f", dayThreeDayTemp) as String
+                                }
+                                if let dayThreeNightTemp = dayThreeTemp["night"] as? Double {
+                                    self._dayThreeNightTemp = NSString(format: "%.0f", dayThreeNightTemp) as String
+                                }
+                            }
+                            if let dayThreeCond = list[3]["weather"] as? [Dictionary<String,AnyObject>] where dayThreeCond.count > 0 {
+                                if let dayThreeIcon = dayThreeCond[0]["icon"] as? String {
+                                    self._dayThreeIcon = dayThreeIcon
+                                }
+                                if let dayThreeDesc = dayThreeCond[0]["description"] as? String {
+                                    self._dayThreeDesc = dayThreeDesc
+                                }
+                            }
+                            completed()
 
-            print("Weather: \(self._weatherDesc)")
-            print("Icon name: \(self._icon)")
-            print("Temperature: \(self._temperature)")
-            print("Pressure: \(self._pressure)")
-            print("Speed of wind: \(self._windSpeed)")
-            print("Wind direction: \(self._windDirection)")
-            print("Sunrise time: \(self._sunrise)")
-            print("Sunset time: \(self._sunset)")
-            print("City name is: \(self._cityName)")
+                        }
+                    }
+
+
+                })
+
+            }
+
+            
         }
     }
     
